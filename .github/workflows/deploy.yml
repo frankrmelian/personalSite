@@ -27,10 +27,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug Environment Variables
+        run: |
+          echo "NODE_ENV: $NODE_ENV"
+          echo "DEPLOY_TARGET: $DEPLOY_TARGET"
+        env:
+          NODE_ENV: development
+          DEPLOY_TARGET: github
+
       - name: Build for GitHub Pages (Development)
         run: npm run build:github
         env:
           NODE_ENV: development
+          DEPLOY_TARGET: github
 
       # Deploy to GitHub Pages
       - name: Setup Pages
