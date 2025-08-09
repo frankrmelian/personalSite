@@ -1,6 +1,7 @@
 # Personal Portfolio Website
 
-A modern portfolio website built with Next.js 13, TypeScript, and Tailwind CSS. Features a responsive design with sections for projects, experience, and contact information.
+A modern portfolio website built with Next.js 13, TypeScript, and Tailwind CSS. Features a responsive design with sections for projects, experience, and contact information. Includes privacy protection for public repositories while maintaining full functionality in production.
+
 Feel free to use for your personal use
 
 ## 🚀 Tech Stack
@@ -49,7 +50,22 @@ Feel free to use for your personal use
     └── package.json
 ```
 
-## 🛠️ Getting Started
+## � Privacy & Security
+
+This project uses environment-aware data loading to protect personal information when the code is public:
+
+- **Development/GitHub Pages**: Uses generic placeholder data (`generic.json`)
+- **Production**: Uses real personal data (`en.json` - not committed to repo)
+- **Email Protection**: Prevents email harvesting from public repositories
+- **Dual Deployment**: Supports both public demos and private production sites
+
+### Build Commands
+
+- `npm run dev` - Local development (uses generic data)
+- `npm run build:github` - Build for GitHub Pages (generic data)
+- `npm run build:production` - Build for production (personal data)
+
+## �🛠️ Getting Started
 
 ### Prerequisites
 

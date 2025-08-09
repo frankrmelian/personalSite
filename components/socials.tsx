@@ -1,20 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import { SocialLinks } from "@/types";
 
 interface SocialsProps {
-  data: {
-    email: string;
-    github: string;
-    linkedin: string;
-    instagram: string;
-  };
+  data: SocialLinks;
 }
 
 const Socials: React.FC<SocialsProps> = ({ data }) => {
   return (
     <div className="flex flex-row items-center">
       <a
-        href={`mailto:${data.email}`}
+        href={`mailto:${data.emailAddress}`}
         className="mr-10 transition-all bg-primary-500 hover:bg-primary-400 text-surface-100 font-bold py-2 px-8 rounded flex flex-row justify-center items-center"
       >
         <svg
@@ -35,7 +31,7 @@ const Socials: React.FC<SocialsProps> = ({ data }) => {
       </a>
       <div className="flex flex-row">
         <a
-          href={data.github}
+          href={data.githubProfile}
           target="_blank"
           rel="noopener noreferrer"
           className="mr-10 flex flex-row content-center justify-center text-on-background hover:text-primary-500 transition-all"
@@ -50,7 +46,7 @@ const Socials: React.FC<SocialsProps> = ({ data }) => {
           <div className="">GitHub</div>
         </a>
         <a
-          href={data.linkedin}
+          href={data.linkedInProfile}
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-row content-center justify-center text-on-background hover:text-highlight-500 transition-all"
@@ -65,7 +61,7 @@ const Socials: React.FC<SocialsProps> = ({ data }) => {
           <div className="">LinkedIn</div>
         </a>
         <a
-          href={data.instagram}
+          href={data.instagramProfile}
           target="_blank"
           rel="noopener noreferrer"
           className="ml-10 flex flex-row content-center justify-center text-on-background hover:text-accent-500 transition-all"

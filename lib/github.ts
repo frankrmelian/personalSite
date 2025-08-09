@@ -1,3 +1,5 @@
+import config from "./config";
+
 export interface GitHubRepo {
   id: number;
   name: string;
@@ -42,13 +44,18 @@ export interface GitHubProject {
   commitCount?: number;
 }
 
-const GITHUB_USERNAME = "frankrmelian";
+// Environment-aware GitHub username
+const getGitHubUsername = (): string => {
+  const isProductionDeployment = config.isProduction && config.isDigitalOcean;
+  return isProductionDeployment ? "frankrmelian" : "example-user";
+};
+
 const GITHUB_API_URL = "https://api.github.com";
 
 export async function fetchGitHubRepos(): Promise<GitHubProject[]> {
   try {
     const response = await fetch(
-      `${GITHUB_API_URL}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=20`,
+      `${GITHUB_API_URL}/users/${getGitHubUsername()}/repos?sort=updated&per_page=20`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
@@ -103,7 +110,7 @@ export async function fetchGitHubRepos(): Promise<GitHubProject[]> {
 async function fetchRepoCommits(repoName: string): Promise<GitHubCommit[]> {
   try {
     const response = await fetch(
-      `${GITHUB_API_URL}/repos/${GITHUB_USERNAME}/${repoName}/commits?per_page=10`,
+      `${GITHUB_API_URL}/repos/${getGitHubUsername()}/${repoName}/commits?per_page=10`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
@@ -130,7 +137,7 @@ async function fetchRepoReadme(
 ): Promise<string | null> {
   try {
     const response = await fetch(
-      `${GITHUB_API_URL}/repos/${GITHUB_USERNAME}/${repoName}/readme`,
+      `${GITHUB_API_URL}/repos/${getGitHubUsername()}/${repoName}/readme`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
@@ -192,27 +199,56 @@ function formatStarCount(count: number): string {
 }
 
 function getFallbackProjects(): GitHubProject[] {
+  const isProductionDeployment = config.isProduction && config.isDigitalOcean;
+  const githubUsername = getGitHubUsername();
+
+  if (isProductionDeployment) {
+    return [
+      {
+        name: "frankmelian.com",
+        framework: "next.js",
+        description:
+          "Personal portfolio website built with Next.js and TypeScript",
+        href: "https://github.com/frankrmelian/frankmelian.com",
+        stars: "0",
+        lastCommitMessage: "Initial commit",
+        readmeTitle: "Frank Melian - Portfolio",
+        commitCount: 1,
+      },
+      {
+        name: "example-project",
+        framework: "javascript",
+        description: "Short description of your project.",
+        href: "https://github.com/frankrmelian",
+        stars: "0",
+        lastCommitMessage: "Update README",
+        readmeTitle: "Example Project",
+        commitCount: 5,
+      },
+    ];
+  }
+
+  // Generic fallback for development/GitHub Pages
   return [
     {
-      name: "frankmelian.com",
+      name: "portfolio-website",
       framework: "next.js",
-      description:
-        "Personal portfolio website built with Next.js and TypeScript",
-      href: "https://github.com/frankrmelian/frankmelian.com",
+      description: "Personal portfolio website built with modern technologies",
+      href: `https://github.com/${githubUsername}/portfolio-website`,
       stars: "0",
-      lastCommitMessage: "Initial commit",
-      readmeTitle: "Frank Melian - Portfolio",
+      lastCommitMessage: "Initial setup",
+      readmeTitle: "Portfolio Website",
       commitCount: 1,
     },
     {
-      name: "example-project",
+      name: "sample-project",
       framework: "javascript",
-      description: "Short description of your project.",
-      href: "https://github.com/frankrmelian",
+      description: "Example project showcasing development skills.",
+      href: `https://github.com/${githubUsername}/sample-project`,
       stars: "0",
-      lastCommitMessage: "Update README",
-      readmeTitle: "Example Project",
-      commitCount: 5,
+      lastCommitMessage: "Add documentation",
+      readmeTitle: "Sample Project",
+      commitCount: 3,
     },
   ];
 }

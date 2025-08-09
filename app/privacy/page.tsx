@@ -1,13 +1,8 @@
 import React from "react";
-import { promises as fs } from "fs";
-import { TranslationData } from "@/types";
+import { getSecureTranslationData } from "@/lib/secure-data";
 
 export default async function PrivacyStatement(): Promise<React.JSX.Element> {
-  const file = await fs.readFile(
-    process.cwd() + "/public/translations/en.json",
-    "utf-8"
-  );
-  const data: TranslationData = JSON.parse(file);
+  const data = await getSecureTranslationData();
 
   return (
     <main className="flex min-h-screen font-mono text-sm flex-col p-24">
@@ -30,7 +25,7 @@ export default async function PrivacyStatement(): Promise<React.JSX.Element> {
               d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
             />
           </svg>
-          <span>{data.general.name} / Home</span>
+          <span>{data.personalInfo.fullName} / Home</span>
         </a>
         <h2 className="mb-8 text-2xl font-medium tracking-widest">
           Privacy Statement

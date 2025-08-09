@@ -1,15 +1,22 @@
 import React from "react";
-import { General } from "@/types";
+import { AboutSection } from "@/types";
 
 interface AboutProps {
-  data: General;
+  data: AboutSection;
 }
 
 const About: React.FC<AboutProps> = ({ data }) => {
+  const aboutParagraphs = [
+    data.personalStory,
+    data.professionalJourney,
+    data.personalInterests,
+    data.closingStatement,
+  ];
+
   return (
     <div id="about" className="mb-16 group">
       <div className="text-on-background text-lg">
-        {data.about.map(function (paragraph, index) {
+        {aboutParagraphs.map(function (paragraph, index) {
           return (
             <div key={index} className="mb-6">
               {paragraph}

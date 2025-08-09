@@ -2,12 +2,17 @@
 
 import React from "react";
 import { LinkedInProfile, formatLinkedInDate } from "@/lib/linkedin";
+import { SocialLinks } from "@/types";
 
 interface LinkedInCardProps {
   profile: LinkedInProfile;
+  socialLinks: SocialLinks;
 }
 
-const LinkedInCard: React.FC<LinkedInCardProps> = ({ profile }) => {
+const LinkedInCard: React.FC<LinkedInCardProps> = ({
+  profile,
+  socialLinks,
+}) => {
   return (
     <div className="mb-16">
       <h2 className="mb-8 visible lg:invisible font-medium tracking-widest text-on-background">
@@ -45,7 +50,7 @@ const LinkedInCard: React.FC<LinkedInCardProps> = ({ profile }) => {
             </div>
           </div>
           <a
-            href="https://www.linkedin.com/in/frank-melian-3699762a7/"
+            href={socialLinks.linkedInProfile}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-highlight-500 hover:text-highlight-400 transition-all flex-shrink-0"

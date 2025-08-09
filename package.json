@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:github": "DEPLOY_TARGET=github NODE_ENV=development next build",
+    "build:production": "DEPLOY_TARGET=production NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit"

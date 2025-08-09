@@ -7,6 +7,12 @@ node_modules/
 .yarn/build-state.yml
 .yarn/install-state.gz
 
+# Sensitive deployment files
+.github/workflows/deploy-production.yml
+
+# Personal information (keep private)
+public/translations/en.json
+
 # Production builds
 .next/
 /out/

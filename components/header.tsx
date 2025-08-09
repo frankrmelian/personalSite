@@ -1,25 +1,35 @@
 import React from "react";
 import Navigation from "./navigation";
 import Socials from "./socials";
-import { General } from "@/types";
+import {
+  PersonalInfo,
+  SocialLinks,
+  Navigation as NavigationData,
+} from "@/types";
 
 interface HeaderProps {
-  data: General;
+  personalInfo: PersonalInfo;
+  socialLinks: SocialLinks;
+  navigation: NavigationData;
 }
 
-const Header: React.FC<HeaderProps> = ({ data }) => {
+const Header: React.FC<HeaderProps> = ({
+  personalInfo,
+  socialLinks,
+  navigation,
+}) => {
   return (
     <div className="lg:fixed h-screen basis-1.5/4 flex flex-col justify-between pb-48 self-center lg:self-auto">
       <div className="">
         <h1 className="text-5xl subpixel-antialiased tracking-wide text-on-background">
-          {data.name}
+          {personalInfo.fullName}
         </h1>
         <h2 className="text-surface-500 pt-2 text-base font-normal tracking-wider">
-          {data.headline}
+          {personalInfo.professionalTagline}
         </h2>
       </div>
-      <Navigation></Navigation>
-      <Socials data={data.socials}></Socials>
+      <Navigation data={navigation}></Navigation>
+      <Socials data={socialLinks}></Socials>
     </div>
   );
 };

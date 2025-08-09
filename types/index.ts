@@ -1,3 +1,49 @@
+export interface SiteMetadata {
+  title: string;
+  description: string;
+}
+
+export interface PersonalInfo {
+  fullName: string;
+  professionalTagline: string;
+}
+
+export interface AboutSection {
+  personalStory: string;
+  professionalJourney: string;
+  personalInterests: string;
+  closingStatement: string;
+}
+
+export interface SocialLinks {
+  emailAddress: string;
+  linkedInProfile: string;
+  githubProfile: string;
+  instagramProfile: string;
+}
+
+export interface Navigation {
+  aboutLabel: string;
+  blogLabel: string;
+  projectsLabel: string;
+}
+
+export interface BlogPage {
+  title: string;
+  comingSoonEmoji: string;
+  comingSoonMessage: string;
+  comingSoonDescription: string;
+}
+
+export interface ProjectsPage {
+  title: string;
+}
+
+export interface Pages {
+  blog: BlogPage;
+  projects: ProjectsPage;
+}
+
 export interface General {
   name: string;
   headline: string;
@@ -54,9 +100,16 @@ export interface Project {
 }
 
 export interface TranslationData {
-  general: General;
-  experiences: Experience[];
-  education: Education[];
-  volunteering: Volunteering[];
-  projects: Project[];
+  siteMetadata: SiteMetadata;
+  personalInfo: PersonalInfo;
+  aboutSection: AboutSection;
+  socialLinks: SocialLinks;
+  navigation: Navigation;
+  pages: Pages;
+  // Legacy support during transition
+  general?: General;
+  experiences?: Experience[];
+  education?: Education[];
+  volunteering?: Volunteering[];
+  projects?: Project[];
 }

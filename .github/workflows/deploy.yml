@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages & Digital Ocean
+name: Deploy to GitHub Pages (Development)
 
 on:
   push:
-    branches: [main]
+    branches: [main] # Deploy development builds from main branch
   workflow_dispatch:
 
 jobs:
@@ -12,6 +12,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+    environment: github-pages
 
     steps:
       - name: Checkout
@@ -26,8 +27,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build static site
-        run: npm run build
+      - name: Build for GitHub Pages (Development)
+        run: npm run build:github
+        env:
+          NODE_ENV: development
 
       # Deploy to GitHub Pages
       - name: Setup Pages
@@ -42,50 +45,6 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-
-      # Deploy the same build to Digital Ocean
-      - name: Create Digital Ocean package
-        run: |
-          tar -czf site.tar.gz -C out .
-
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
-
-      - name: Deploy to Digital Ocean
-        run: |
-          # Add server to known hosts
-          ssh-keyscan -H ${{ secrets.DO_SERVER_IP }} >> ~/.ssh/known_hosts
-
-          # Upload and extract
-          scp site.tar.gz ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_IP }}:~/
-
-          ssh ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_IP }} << 'EOF'
-            # Go to web directory (usually /var/www/html or similar)
-            cd ${{ secrets.DO_WEB_PATH || '/var/www/html' }}
-            
-            # Backup current site
-            sudo mkdir -p backups
-            sudo mv * backups/backup-$(date +%Y%m%d-%H%M%S)/ 2>/dev/null || true
-            
-            # Extract new site
-            sudo tar -xzf ~/site.tar.gz
-            sudo chown -R www-data:www-data .
-            sudo chmod -R 755 .
-            
-            # Cleanup
-            rm ~/site.tar.gz
-            
-            echo "Deployment completed successfully!"
-          EOF
-
-      - name: Verify deployment
-        run: |
-          echo "🎉 Deployment completed!"
-          echo "GitHub Pages: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
-          echo "Digital Ocean: ${{ secrets.DO_APP_URL || 'Your DO URL' }}"
-
 concurrency:
   group: "deployment"
   cancel-in-progress: false

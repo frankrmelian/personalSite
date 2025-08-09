@@ -1,16 +1,17 @@
 import React from "react";
 import ProjectItem from "./project-item";
-import type { Project } from "../../types";
+import type { Project, ProjectsPage } from "../../types";
 
 interface ProjectsProps {
   data: Project[];
+  pageData: ProjectsPage;
 }
 
-const Projects: React.FC<ProjectsProps> = ({ data }) => {
+const Projects: React.FC<ProjectsProps> = ({ data, pageData }) => {
   return (
     <div id="projects" className="mb-16">
       <h2 className="mb-8 visible lg:invisible font-medium tracking-widest text-on-background">
-        Projects
+        {pageData.title}
       </h2>
       <div className="grid grid-cols-2 gap-2">
         {data.map((object, index) => (

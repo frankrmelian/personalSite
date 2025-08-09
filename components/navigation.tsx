@@ -3,8 +3,13 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import NavItem from "./nav-item";
+import { Navigation as NavigationData } from "@/types";
 
-const Navigation: React.FC = () => {
+interface NavigationProps {
+  data: NavigationData;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ data }) => {
   const pathname = usePathname();
 
   // Determine which page is active based on the current pathname
@@ -23,19 +28,19 @@ const Navigation: React.FC = () => {
         active={isActive("/about")}
         href="/about"
         num="01"
-        name="ABOUT"
+        name={data.aboutLabel}
       ></NavItem>
       <NavItem
         active={isActive("/blog")}
         href="/blog"
         num="02"
-        name="BLOG"
+        name={data.blogLabel}
       ></NavItem>
       <NavItem
         active={isActive("/projects")}
         href="/projects"
         num="03"
-        name="PROJECTS"
+        name={data.projectsLabel}
       ></NavItem>
     </div>
   );

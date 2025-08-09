@@ -1,0 +1,38 @@
+{
+  "siteMetadata": {
+    "title": "Portfolio Site",
+    "description": "A personal portfolio website showcasing skills and projects"
+  },
+  "personalInfo": {
+    "fullName": "John Doe",
+    "professionalTagline": "Full-Stack Developer"
+  },
+  "aboutSection": {
+    "personalStory": "A passionate developer with experience in modern web technologies. Currently working on various projects to showcase skills and learn new technologies.",
+    "professionalJourney": "Started coding as a hobby and gradually developed expertise in multiple programming languages and frameworks. Always eager to take on new challenges.",
+    "personalInterests": "When not coding, enjoys exploring new technologies, contributing to open source projects, and staying up to date with industry trends.",
+    "closingStatement": "Constantly learning and growing in the field of software development."
+  },
+  "socialLinks": {
+    "emailAddress": "hello@example.com",
+    "linkedInProfile": "https://linkedin.com/in/example",
+    "githubProfile": "https://github.com/example",
+    "instagramProfile": "https://instagram.com/example"
+  },
+  "navigation": {
+    "aboutLabel": "ABOUT",
+    "blogLabel": "BLOG",
+    "projectsLabel": "PROJECTS"
+  },
+  "pages": {
+    "blog": {
+      "title": "Blog",
+      "comingSoonEmoji": "📝",
+      "comingSoonMessage": "Blog coming soon...",
+      "comingSoonDescription": "This space will feature articles about development, design, and technology."
+    },
+    "projects": {
+      "title": "Projects"
+    }
+  }
+}
