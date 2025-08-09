@@ -1,0 +1,18 @@
+{
+  "general": {
+    "name": "Frank Melian",
+    "headline": "Networking by day / Coding by night",
+    "about": [
+      "Father, husband, and lifelong tech enthusiast who turned a passion for computers into a career. When I'm not working as a network technician, you'll find me watching anime with my family, playing video games, or kicking around a soccer ball.",
+      "I've been fixing computers and figuring out how things work since I was a kid, which naturally led me into the tech world. Now I spend my days installing fiber optic networks and helping people stay connected, but I'm also working toward my Computer Science degree because I love learning new things.",
+      "My perfect weekend? Playing soccer in the morning, catching up on the latest anime series, and maybe working on a coding project or two. I believe in balancing work with the things that make life fun—family time, good stories, and a little friendly competition on the field or in a game.",
+      "Always curious, always learning, and always ready to help solve a tech problem or recommend a great anime series."
+    ],
+    "socials": {
+      "email": "fmelian0101@gmail.com",
+      "linkedin": "https://www.linkedin.com/in/frank-melian-3699762a7/",
+      "github": "https://github.com/frankrmelian",
+      "instagram": "https://www.instagram.com/cskillsz/"
+    }
+  }
+}
