@@ -1,14 +1,17 @@
-name: Deploy Next.js to GitHub Pages
+name: Deploy to GitHub Pages & Digital Ocean
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
       - name: Checkout
@@ -23,31 +26,66 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build static site
         run: npm run build
 
+      # Deploy to GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
           static_site_generator: next
 
-      - name: Upload artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
-        if: github.ref == 'refs/heads/main'
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+      # Deploy the same build to Digital Ocean
+      - name: Create Digital Ocean package
+        run: |
+          tar -czf site.tar.gz -C out .
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Digital Ocean
+        run: |
+          # Add server to known hosts
+          ssh-keyscan -H ${{ secrets.DO_SERVER_IP }} >> ~/.ssh/known_hosts
+
+          # Upload and extract
+          scp site.tar.gz ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_IP }}:~/
+
+          ssh ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_IP }} << 'EOF'
+            # Go to web directory (usually /var/www/html or similar)
+            cd ${{ secrets.DO_WEB_PATH || '/var/www/html' }}
+            
+            # Backup current site
+            sudo mkdir -p backups
+            sudo mv * backups/backup-$(date +%Y%m%d-%H%M%S)/ 2>/dev/null || true
+            
+            # Extract new site
+            sudo tar -xzf ~/site.tar.gz
+            sudo chown -R www-data:www-data .
+            sudo chmod -R 755 .
+            
+            # Cleanup
+            rm ~/site.tar.gz
+            
+            echo "Deployment completed successfully!"
+          EOF
+
+      - name: Verify deployment
+        run: |
+          echo "🎉 Deployment completed!"
+          echo "GitHub Pages: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          echo "Digital Ocean: ${{ secrets.DO_APP_URL || 'Your DO URL' }}"
+
 concurrency:
-  group: "pages"
+  group: "deployment"
   cancel-in-progress: false

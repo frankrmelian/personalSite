@@ -1,6 +1,7 @@
 # Personal Portfolio Website
 
 A modern portfolio website built with Next.js 13, TypeScript, and Tailwind CSS. Features a responsive design with sections for projects, experience, and contact information.
+Feel free to use for your personal use
 
 ## 🚀 Tech Stack
 
